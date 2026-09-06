@@ -106,12 +106,12 @@ fn main() {
 
     // initializing a playlist and populating it with tracks
     let mut playlist1 = Playlist::new("My First Tracks");
-    for track in raw.iter() {
-        playlist1.add_track(Track::new(track.0, track.1, track.2));
+    for (title, artist, sec) in raw.iter() {
+        playlist1.add_track(Track::new(title, artist, *sec));
     }
 
     // printing the playlist
-    println!("Playlist \"{}\" - {} tracks:", &playlist1.name, playlist1.tracklist.len());
+    println!("Playlist \"{}\" - {} tracks:", playlist1.name, playlist1.tracklist.len());
     for track in playlist1.tracklist.iter() {
         println!(
             "\"{}\" by {} - {} s",
