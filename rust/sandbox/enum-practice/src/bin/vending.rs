@@ -37,6 +37,12 @@ enum Slot {
     Product(Name, Price),
 }
 
+impl Slot {
+    fn product(name: &str, price: u32) -> Slot {
+        Slot::Product(String::from(name), price)
+    }
+}
+
 fn count_occupied(list: &[Slot]) -> usize {
     let mut count= 0;
     for slot in list {
@@ -53,7 +59,7 @@ fn can_afford(list: &[Slot], budget: u32) -> Vec<&Name> {
     for slot in list {
         match slot {
             Slot::Product(name, price) => {
-                if *price < budget {
+                if *price <= budget {
                     affordable.push(name);
                 }
             }
@@ -77,26 +83,17 @@ const BUDGET: u32 = 200;
 
 fn main() {
 
-    let raw = [
-        ("Salted crisps", 150),
-        ("", 0),
-        ("Chocolate bar", 220),
-        ("Sparkling water", 95),
-        ("", 0),
-        ("Energy drink", 310),
-        ("", 0),
+    // build list of slots
+    let slot_list = [
+        Slot::product("Salted crisps", 150),
+        Slot::Empty,
+        Slot::product("Chocolate bar", 220),
+        Slot::product("Sparkling water", 95),
+        Slot::Empty,
+        Slot::product("Energy drink", 310),
+        Slot::Empty,
     ];
 
-    // build list of slots
-    let mut slot_list: Vec<Slot> = vec![];
-
-    for (name, price) in raw {
-        slot_list.push(match name {
-            "" => Slot::Empty,
-            _ => Slot::Product(String::from(name), price),
-        });
-    }
-    
     // print all slots
     for i in 0..slot_list.len() {
         match &slot_list[i] {
