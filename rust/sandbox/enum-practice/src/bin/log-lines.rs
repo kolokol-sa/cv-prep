@@ -30,12 +30,8 @@ fn display(line: &LogLine) {
 }
 
 fn first_error(log: &[LogLine]) -> Option<&LogLine> {
-    for line in log {
-        if let LogLine::Error { .. } = line {
-            return Some(line);
-        }
-    }
-    None
+    log.iter()
+        .find(|line| matches!(line, LogLine::Error { .. }))
 }
 
 fn error_summary(error: Option<&LogLine>) -> Option<String> {
@@ -47,14 +43,9 @@ fn error_summary(error: Option<&LogLine>) -> Option<String> {
 }
 
 fn count_unparseable(log: &[LogLine]) -> usize {
-    let mut count: usize = 0;
-    for line in log {
-        match line {
-            LogLine::Unparseable => count += 1,
-            _ => (),
-        }
-    }
-    count
+    log.iter()
+        .filter(|line| matches!(line, LogLine::Unparseable))
+        .count()
 }
 
 fn main() {
@@ -73,20 +64,20 @@ fn main() {
     ];
 
     // displaying the log
-    for line in lines.iter() {
+    for line in &lines {
         display(line);
     }
 
     // displaying the code of the first error
-    let first_error = first_error(&lines);
-    match first_error {
-        Some(LogLine::Error { code, .. }) => println!("The first error had code {}", code),
+    let error1 = first_error(&lines);
+    match error1 {
+        Some(LogLine::Error { code, .. }) => println!("The first error had code {code}"),
         _ => println!("There were no errors"),
     }
 
     // displaying the full first error description if there is
-    let error_summary = error_summary(first_error);
-    if let Some(s) = error_summary {
+    let error1_summary = error_summary(error1);
+    if let Some(s) = error1_summary {
         println!("{s}");
     }
 
