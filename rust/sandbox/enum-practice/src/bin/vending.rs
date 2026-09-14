@@ -44,11 +44,11 @@ impl Slot {
 }
 
 fn count_occupied(list: &[Slot]) -> usize {
-    let mut count= 0;
+    let mut count = 0;
     for slot in list {
         match slot {
             Slot::Product(_, _) => count += 1,
-            Slot::Empty => {},
+            Slot::Empty => {}
         }
     }
     count
@@ -73,16 +73,17 @@ fn what_inside(list: &[Slot], num: usize) -> Option<Price> {
     if (num <= list.len()) && (num > 0) {
         match list[num - 1] {
             Slot::Product(_, price) => Some(price),
-            _ => None
+            _ => None,
         }
-    } else { None }
+    } else {
+        None
+    }
 }
 
 const SLOTS_TO_CHECK: [usize; 3] = [3, 1, 10];
 const BUDGET: u32 = 200;
 
 fn main() {
-
     // build list of slots
     let slot_list = [
         Slot::product("Salted crisps", 150),
@@ -98,13 +99,16 @@ fn main() {
     for i in 0..slot_list.len() {
         match &slot_list[i] {
             Slot::Empty => println!("Slot {}: empty", i + 1),
-            Slot::Product(name,price ) => println!("Slot {}: {name} - {price} cents", i + 1)
+            Slot::Product(name, price) => println!("Slot {}: {name} - {price} cents", i + 1),
         }
-        
     }
 
     // counting occupied slots
-    println!("{} out of {} slots are occupied", count_occupied(&slot_list), slot_list.len());
+    println!(
+        "{} out of {} slots are occupied",
+        count_occupied(&slot_list),
+        slot_list.len()
+    );
 
     // printing list of items within BUDGET
     let affordable_items = can_afford(&slot_list, BUDGET);
@@ -118,9 +122,7 @@ fn main() {
     for num in SLOTS_TO_CHECK {
         match what_inside(&slot_list, num) {
             Some(price) => println!("Item in slot {num} costs {price} cents"),
-            None => println!("Slot {num}: item not found")
+            None => println!("Slot {num}: item not found"),
         }
     }
-    
-    
 }
