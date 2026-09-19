@@ -28,7 +28,7 @@ fn byte_count(s: &str) -> usize {
 fn word_frequency(s: &str) -> Vec<(String, usize)> {
     let mut map = HashMap::new();
     for word in s.split_whitespace() {
-        let mut count = map.entry(String::from(word)).or_insert(0);
+        let count = map.entry(String::from(word)).or_insert(0);
         *count += 1;
     }
     let mut vec = map.into_iter().collect::<Vec<(String, usize)>>();
@@ -55,15 +55,13 @@ fn main() {
 
     println!("\nString statistics:");
     // character and byte count
-    println!("- Total character count: {} characters", char_count(&text));
-    println!("- Total byte count: {} bytes", byte_count(&text));
+    println!("- Total character count: {} characters", char_count(text));
+    println!("- Total byte count: {} bytes", byte_count(text));
 
     // top 5 most frequent words
     println!("\nThe 5 most frequent words are:");
     let word_freq = word_frequency(text);
-    let word_freq_len = word_freq.len();
-    let end = if word_freq_len >= 5 { 5 } else { word_freq_len };
-    for (word, freq) in word_freq[0..end].iter() {
+    for (word, freq) in word_freq.iter().take(5) {
         println!("{} - {}", word, freq);
     }
 
@@ -71,6 +69,6 @@ fn main() {
     println!("\nWhen each character first appears:");
     let char_indices = char_first_indices(text);
     for (ch, i) in char_indices.iter() {
-        println!("'{}' - [{}]", ch, i);
+        println!("'{}' - pos. {}", ch, i);
     }
 }
