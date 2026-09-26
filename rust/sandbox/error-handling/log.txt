@@ -1,0 +1,10 @@
+sensor-a,21.5
+sensor-b,-4.0
+sensor-c,18.25
+sensor-d,300.0
+sensor-e,-12.75
+sensor-f
+sensor-g,x
+sensor-h,59.9
+sensor-i,-79.5
+sensor-j,0.0
